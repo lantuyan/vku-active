@@ -1,5 +1,9 @@
 import { MongoClient, ServerApiVersion } from 'mongodb';
-const uri = 'mongodb+srv://lantuyan:lantuyan@vku-active.bnyvsqs.mongodb.net/?retryWrites=true&w=majority';
+import { config } from 'dotenv';
+config();
+// console.log(process.env.DB_USERNAME);
+
+const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@vku-active.bnyvsqs.mongodb.net/?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri);
 
