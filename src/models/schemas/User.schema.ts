@@ -6,21 +6,23 @@ enum UserVerifyStatus {
   Banned
 }
 interface UserType {
-  _id: ObjectId;
-  name: string;
-  MSV: string;
+  _id?: ObjectId;
+  name?: string;
+  MSV?: string;
   email: string;
   password: string;
-  schoolYear: string;
-  class: string;
-  email_verify_token: string;
-  forgot_password_token: string;
-  verify: UserVerifyStatus;
-  created_at: Date;
-  updated_at: Date;
+  schoolYear?: string;
+  class?: string;
+  email_verify_token?: string;
+  forgot_password_token?: string;
+  verify?: UserVerifyStatus;
+  created_at?: Date;
+  updated_at?: Date;
 
-  activities: string[];
-  totalScore: number;
+  activities?: string[];
+  totalScore?: number;
+
+  date_of_birth?: Date;
 }
 
 class User {
@@ -39,22 +41,27 @@ class User {
 
   activities: string[];
   totalScore: number;
+
+  date_of_birth: Date;
   constructor(user: UserType) {
-    this._id = user._id;
-    this.name = user.name;
-    this.MSV = user.MSV;
+    const date = new Date();
+    this._id = user._id || new ObjectId();
+    this.name = user.name || '';
+    this.MSV = user.MSV || '';
     this.email = user.email;
     this.password = user.password;
-    this.schoolYear = user.schoolYear;
-    this.class = user.class;
-    this.email_verify_token = user.email_verify_token;
-    this.forgot_password_token = user.forgot_password_token;
-    this.verify = user.verify;
-    this.created_at = user.created_at;
-    this.updated_at = user.updated_at;
+    this.schoolYear = user.schoolYear || '';
+    this.class = user.class || '';
+    this.email_verify_token = user.email_verify_token || '';
+    this.forgot_password_token = user.forgot_password_token || '';
+    this.verify = user.verify || UserVerifyStatus.Unverified;
+    this.created_at = user.created_at || date;
+    this.updated_at = user.updated_at || date;
 
-    this.activities = user.activities;
-    this.totalScore = user.totalScore;
+    this.activities = user.activities || [];
+    this.totalScore = user.totalScore || 0;
+
+    this.date_of_birth = user.date_of_birth || new Date();
   }
 }
 
