@@ -1,14 +1,9 @@
 import { ObjectId } from 'mongodb';
-
-enum UserVerifyStatus {
-  Unverified,
-  Verified,
-  Banned
-}
+import { UserVerifyStatus } from '~/constants/enum';
 interface UserType {
   _id?: ObjectId;
-  name?: string;
-  MSV?: string;
+  name: string;
+  msv: string;
   email: string;
   password: string;
   schoolYear?: string;
@@ -22,13 +17,13 @@ interface UserType {
   activities?: string[];
   totalScore?: number;
 
-  date_of_birth?: Date;
+  date_of_birth: Date;
 }
 
 class User {
   _id: ObjectId;
   name: string;
-  MSV: string;
+  msv: string;
   email: string;
   password: string;
   schoolYear: string;
@@ -47,7 +42,7 @@ class User {
     const date = new Date();
     this._id = user._id || new ObjectId();
     this.name = user.name || '';
-    this.MSV = user.MSV || '';
+    this.msv = user.msv || '';
     this.email = user.email;
     this.password = user.password;
     this.schoolYear = user.schoolYear || '';
