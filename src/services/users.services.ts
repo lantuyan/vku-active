@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
+import { ObjectId } from 'mongodb';
 import { TokenType } from '~/constants/enum';
 import { RegisterRequestBody } from '~/models/requests/User.requests';
+import RefreshToken from '~/models/schemas/RefreshToken.schema';
 import User from '~/models/schemas/User.schema';
 import databaseService from '~/services/database.services';
 import { hashPassword } from '~/utils/crypto';
@@ -47,6 +49,12 @@ class UsersService {
     const user_id = result.insertedId.toString();
     const [access_token, refresh_token] = await this.signAcessAndRefreshToken(user_id);
 
+    await databaseService.refreshTokens.insertOne(
+      new RefreshToken({
+        user_id: new ObjectId(user_id),
+        token: refresh_token
+      })
+    );
     // const [access_token, refresh_token] = await Promise.all([
     //   this.signAccessToken(user_id),
     //   this.signRefreshToken(user_id)
@@ -66,6 +74,14 @@ class UsersService {
 
   async login(user_id: string) {
     const [access_token, refresh_token] = await this.signAcessAndRefreshToken(user_id);
+    await databaseService.refreshTokens.insertOne(
+      new RefreshToken({
+        user_id: new ObjectId(user_id),
+        token: refresh_token
+      })
+    );
+    console.log('login');
+
     return {
       access_token,
       refresh_token

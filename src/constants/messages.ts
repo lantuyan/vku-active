@@ -9,7 +9,7 @@ export const USERS_MESSAGES = {
   EMAIL_REQUIRED: 'Email is required',
   EMAIL_INVALID: 'Email is invalid',
 
-  USER_NOT_FOUND: 'User not found',
+  EMAIL_OR_PASSWORD_INCORRECT: 'Email or password is incorrect',
 
   MSV_REQUIRED: 'MSV is required',
   MSV_MUST_BE_STRING: 'MSV must be string',
