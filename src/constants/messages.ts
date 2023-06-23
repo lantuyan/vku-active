@@ -9,6 +9,8 @@ export const USERS_MESSAGES = {
   EMAIL_REQUIRED: 'Email is required',
   EMAIL_INVALID: 'Email is invalid',
 
+  USER_NOT_FOUND: 'User not found',
+
   MSV_REQUIRED: 'MSV is required',
   MSV_MUST_BE_STRING: 'MSV must be string',
   MSV_LENGTH: 'MSV must be between 6 and 20 characters',
@@ -26,5 +28,8 @@ export const USERS_MESSAGES = {
     'Confirm password must be at least 8 characters long and contain at least 1 lowercase, 1 uppercase, 1 number and 1 symbol',
   CONFIRM_PASSWORD_MUST_MATCH: 'Confirm password must match password',
 
-  DATE_OF_BIRTH_MUST_BE_ISO08601: 'Date of birth must be ISO08601 format'
+  DATE_OF_BIRTH_MUST_BE_ISO08601: 'Date of birth must be ISO08601 format',
+
+  LOGIN_SUCCESS: 'Login success',
+  REGISTER_SUCCESS: 'Register success'
 } as const;

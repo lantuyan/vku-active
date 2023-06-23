@@ -2,18 +2,67 @@ import { Request, Response, NextFunction } from 'express';
 import { checkSchema } from 'express-validator';
 import { USERS_MESSAGES } from '~/constants/messages';
 import { ErrorWithStatus } from '~/models/Errors';
+import databaseService from '~/services/database.services';
 import userService from '~/services/users.services';
+import { hashPassword } from '~/utils/crypto';
 import { validate } from '~/utils/validation';
 
-export const loginValidator = (req: Request, res: Response, next: NextFunction) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({
-      message: 'email and password are required'
-    });
-  }
-  next();
-};
+export const loginValidator = validate(
+  checkSchema({
+    email: {
+      notEmpty: {
+        errorMessage: USERS_MESSAGES.EMAIL_REQUIRED
+      },
+      isEmail: {
+        errorMessage: USERS_MESSAGES.EMAIL_INVALID
+      },
+      trim: true,
+      custom: {
+        options: async (value, { req }) => {
+          // const user = await databaseService.users.findOne({ email: value });
+          const user = await databaseService.users.findOne({ email: value });
+          // const user = await databaseService.users.findOne({ email: value, password: hashPassword(req.body.password) });
+          if (user === null) {
+            throw new Error(USERS_MESSAGES.USER_NOT_FOUND);
+          }
+          req.user = user;
+          return true;
+        }
+      }
+    },
+    password: {
+      notEmpty: {
+        errorMessage: USERS_MESSAGES.PASSWORD_REQUIRED
+      },
+      isLength: {
+        options: {
+          min: 6,
+          max: 100
+        },
+        errorMessage: USERS_MESSAGES.PASSWORD_LENGTH
+      },
+      isStrongPassword: {
+        errorMessage: USERS_MESSAGES.PASSWORD_STRONG,
+        options: {
+          minLength: 8,
+          minLowercase: 1,
+          minUppercase: 1,
+          minNumbers: 1,
+          minSymbols: 1
+        }
+      }
+      // custom: {
+      //   options: async (value) => {
+      //     const user = await databaseService.users.findOne({ email: value, password: hashPassword(req.body.password) });
+      //     if (isExistEmail) {
+      //       throw new Error(USERS_MESSAGES.USER_NOT_FOUND);
+      //     }
+      //     return true;
+      //   }
+      // }
+    }
+  })
+);
 
 export const registerValidator = validate(
   checkSchema({
