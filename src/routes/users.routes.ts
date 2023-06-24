@@ -1,7 +1,7 @@
 // import express from 'express';
 // const usersRouter = express.Router();
 import { Router } from 'express';
-import { loginController, registerController } from '~/controllers/users.controllers';
+import { loginController, logoutController, registerController } from '~/controllers/users.controllers';
 import {
   accessTokenValidator,
   loginValidator,
@@ -44,12 +44,5 @@ usersRouter.post('/register', registerValidator, wrapRequestHandler(registerCont
  * Header{Authorization: Bearer <access_token>}
  * Body{ refresh_token: string, }
  */
-usersRouter.post(
-  '/logout',
-  accessTokenValidator,
-  refreshTokenValidator,
-  wrapRequestHandler((req, res) => {
-    res.json({ message: 'logout' });
-  })
-);
+usersRouter.post('/logout', accessTokenValidator, refreshTokenValidator, wrapRequestHandler(logoutController));
 export default usersRouter;

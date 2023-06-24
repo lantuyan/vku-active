@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 import { TokenType } from '~/constants/enum';
+import { USERS_MESSAGES } from '~/constants/messages';
 import { RegisterRequestBody } from '~/models/requests/User.requests';
 import RefreshToken from '~/models/schemas/RefreshToken.schema';
 import User from '~/models/schemas/User.schema';
@@ -85,6 +86,14 @@ class UsersService {
     return {
       access_token,
       refresh_token
+    };
+  }
+
+  async logout(refresh_token: string) {
+    const result = await databaseService.refreshTokens.deleteOne({ token: refresh_token });
+    console.log(result);
+    return {
+      message: USERS_MESSAGES.LOGOUT_SUCCESS
     };
   }
 }
