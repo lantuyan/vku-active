@@ -69,7 +69,7 @@ class UsersService {
 
   async checkEmailExist(email: string) {
     const user = await databaseService.users.findOne({ email });
-    console.log(user);
+    // console.log(user);
     return Boolean(user);
   }
 
@@ -81,7 +81,7 @@ class UsersService {
         token: refresh_token
       })
     );
-    console.log('login');
+    // console.log('login');
 
     return {
       access_token,
@@ -91,7 +91,7 @@ class UsersService {
 
   async logout(refresh_token: string) {
     const result = await databaseService.refreshTokens.deleteOne({ token: refresh_token });
-    console.log(result);
+    // console.log(result);
     return {
       message: USERS_MESSAGES.LOGOUT_SUCCESS
     };
