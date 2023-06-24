@@ -216,3 +216,42 @@ export const accessTokenValidator = validate(
     ['headers']
   )
 );
+
+export const refreshTokenValidator = validate(
+  checkSchema(
+    {
+      refresh_token: {
+        notEmpty: {
+          errorMessage: USERS_MESSAGES.REFRESH_TOKEN_REQUIRED
+        },
+        custom: {
+          options: async (value: string, { req }) => {
+            try {
+              const [decoded_refresh_token, refresh_token] = await Promise.all([
+                verifyToken({ token: value }),
+                databaseService.refreshTokens.findOne({ token: value })
+              ]);
+              // const decoded_refresh_token = await verifyToken({ token: value });
+              // await databaseService.refreshTokens.findOne({ token: value });
+              // req.decoded_refresh_token = decoded_refresh_token;
+              if (!refresh_token) {
+                throw new ErrorWithStatus({
+                  message: USERS_MESSAGES.USED_REFRESH_TOKEN_OR_NOT_FOUND,
+                  status: HTTP_STATUS.UNAUTHORIZED
+                });
+              }
+            } catch (error) {
+              throw new ErrorWithStatus({
+                message: USERS_MESSAGES.REFRESH_TOKEN_INVALID,
+                status: HTTP_STATUS.UNAUTHORIZED
+              });
+            }
+
+            return true;
+          }
+        }
+      }
+    },
+    ['body']
+  )
+);
