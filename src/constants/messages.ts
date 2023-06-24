@@ -31,5 +31,8 @@ export const USERS_MESSAGES = {
   DATE_OF_BIRTH_MUST_BE_ISO08601: 'Date of birth must be ISO08601 format',
 
   LOGIN_SUCCESS: 'Login success',
-  REGISTER_SUCCESS: 'Register success'
+  REGISTER_SUCCESS: 'Register success',
+
+  ACCESS_TOKEN_REQUIRED: 'Access token is required',
+  ACCESS_TOKEN_INVALID: 'Access token is invalid'
 } as const;

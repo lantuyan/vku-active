@@ -2,10 +2,19 @@
 // const usersRouter = express.Router();
 import { Router } from 'express';
 import { loginController, registerController } from '~/controllers/users.controllers';
-import { loginValidator, registerValidator } from '~/middlewares/users.middlewares';
+import { accessTokenValidator, loginValidator, registerValidator } from '~/middlewares/users.middlewares';
 import { wrapRequestHandler } from '~/utils/handlers';
 const usersRouter = Router();
 
+/**
+ * Register a new user
+ * Path: /users/login
+ * POST
+ * Body{
+ * email: string,
+ * password: string,
+ * }
+ */
 usersRouter.post('/login', loginValidator, wrapRequestHandler(loginController));
 
 /**
@@ -22,4 +31,19 @@ usersRouter.post('/login', loginValidator, wrapRequestHandler(loginController));
  * }
  */
 usersRouter.post('/register', registerValidator, wrapRequestHandler(registerController));
+
+/**
+ * Logout a user
+ * Path: /users/logout
+ * POST
+ * Header{Authorization: Bearer <access_token>}
+ * Body{ refresh_token: string, }
+ */
+usersRouter.post(
+  '/logout',
+  accessTokenValidator,
+  wrapRequestHandler((req, res) => {
+    res.json({ message: 'logout' });
+  })
+);
 export default usersRouter;
