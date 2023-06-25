@@ -45,4 +45,12 @@ usersRouter.post('/register', registerValidator, wrapRequestHandler(registerCont
  * Body{ refresh_token: string, }
  */
 usersRouter.post('/logout', accessTokenValidator, refreshTokenValidator, wrapRequestHandler(logoutController));
+/**
+ * Verify email of a user
+ * Path: user/verify-email
+ * POST
+ * Body{  email_verify_token?: string; }
+ */
+usersRouter.post('/verify-email', wrapRequestHandler(logoutController));
+
 export default usersRouter;
