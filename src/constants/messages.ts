@@ -43,5 +43,8 @@ export const USERS_MESSAGES = {
 
   LOGOUT_SUCCESS: 'Logout success',
 
-  EMAIL_VERIFI_TOKEN_REQUIRED: 'Email verifi token is required'
+  EMAIL_VERIFY_TOKEN_REQUIRED: 'Email verifi token is required',
+  USER_NOT_FOUND: 'User not found',
+  EMAIL_VERIFY_SUCCESS: 'Email verify success',
+  EMAIL_ALREADY_VERIFIED: 'Email already verified'
 } as const;
