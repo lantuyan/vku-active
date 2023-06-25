@@ -4,12 +4,18 @@ import { ObjectId } from 'mongodb';
 import { UserVerifyStatus } from '~/constants/enum';
 import HTTP_STATUS from '~/constants/httpStatus';
 import { USERS_MESSAGES } from '~/constants/messages';
-import { LogoutRequestBody, RegisterRequestBody, TokenPayload } from '~/models/requests/User.requests';
+import {
+  LoginRequestBody,
+  LogoutRequestBody,
+  RegisterRequestBody,
+  TokenPayload,
+  VerifyEmailRequestBody
+} from '~/models/requests/User.requests';
 import User from '~/models/schemas/User.schema';
 import databaseService from '~/services/database.services';
 import userService from '~/services/users.services';
 
-export const loginController = async (req: Request, res: Response) => {
+export const loginController = async (req: Request<ParamsDictionary, any, LoginRequestBody>, res: Response) => {
   const user = req.user as User;
   const user_id = user._id as ObjectId;
 
@@ -42,7 +48,11 @@ export const logoutController = async (req: Request<ParamsDictionary, any, Logou
   return res.json(result);
 };
 
-export const emailVerifyController = async (req: Request, res: Response, next: NextFunction) => {
+export const verifyEmailController = async (
+  req: Request<ParamsDictionary, any, VerifyEmailRequestBody>,
+  res: Response,
+  next: NextFunction
+) => {
   const { user_id } = req.decoded_email_verify_token as TokenPayload;
   const user = await databaseService.users.findOne({
     _id: new ObjectId(user_id)

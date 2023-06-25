@@ -2,7 +2,7 @@
 // const usersRouter = express.Router();
 import { Router } from 'express';
 import {
-  emailVerifyController,
+  verifyEmailController,
   loginController,
   logoutController,
   registerController,
@@ -59,7 +59,7 @@ usersRouter.post('/logout', accessTokenValidator, refreshTokenValidator, wrapReq
  * POST
  * Body{  email_verify_token?: string; }
  */
-usersRouter.post('/verify-email', emailVerifyTokenValidator, wrapRequestHandler(emailVerifyController));
+usersRouter.post('/verify-email', emailVerifyTokenValidator, wrapRequestHandler(verifyEmailController));
 
 /**
  * Verify email of a user
