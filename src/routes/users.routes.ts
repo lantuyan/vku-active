@@ -2,10 +2,11 @@
 // const usersRouter = express.Router();
 import { Router } from 'express';
 import {
-  emailVerifyValidator,
+  emailVerifyController,
   loginController,
   logoutController,
-  registerController
+  registerController,
+  resendVerifyEmailController
 } from '~/controllers/users.controllers';
 import {
   accessTokenValidator,
@@ -18,7 +19,7 @@ import { wrapRequestHandler } from '~/utils/handlers';
 const usersRouter = Router();
 
 /**
- * Register a new user
+ * Login a new user
  * Path: /users/login
  * POST
  * Body{
@@ -51,12 +52,22 @@ usersRouter.post('/register', registerValidator, wrapRequestHandler(registerCont
  * Body{ refresh_token: string, }
  */
 usersRouter.post('/logout', accessTokenValidator, refreshTokenValidator, wrapRequestHandler(logoutController));
+
 /**
  * Verify email of a user
  * Path: user/verify-email
  * POST
  * Body{  email_verify_token?: string; }
  */
-usersRouter.post('/verify-email', emailVerifyTokenValidator, wrapRequestHandler(emailVerifyValidator));
+usersRouter.post('/verify-email', emailVerifyTokenValidator, wrapRequestHandler(emailVerifyController));
+
+/**
+ * Verify email of a user
+ * Path: user/resend-verify-email
+ * POST
+ * Header{Authorization: Bearer <access_token>}
+ * Body{}
+ */
+usersRouter.post('/resend-verify-email', accessTokenValidator, wrapRequestHandler(resendVerifyEmailController));
 
 export default usersRouter;

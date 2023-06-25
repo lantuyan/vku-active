@@ -143,6 +143,24 @@ class UsersService {
       refresh_token
     };
   }
+  async resendVerifyEmail(user_id: string) {
+    const email_verify_token = await this.signEmailVerifyToken(user_id);
+    console.log('resendVerifyEmail: ', email_verify_token);
+
+    // Update lại email_verify_token
+    await databaseService.users.updateOne(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: {
+          email_verify_token: email_verify_token,
+          updated_at: new Date()
+        }
+      }
+    );
+    return {
+      message: USERS_MESSAGES.RESEND_VERIFY_EMAIL_SUCCESS
+    };
+  }
 }
 
 const userService = new UsersService();
