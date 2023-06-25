@@ -41,5 +41,7 @@ export const USERS_MESSAGES = {
   // USED_REFRESH_TOKEN_OR_NOT_FOUND: 'Used refresh token not found',
   REFRESH_TOKEN_USED_OR_NOT_EXISTS: 'Refresh token used or not exists',
 
-  LOGOUT_SUCCESS: 'Logout success'
+  LOGOUT_SUCCESS: 'Logout success',
+
+  EMAIL_VERIFI_TOKEN_REQUIRED: 'Email verifi token is required'
 } as const;
