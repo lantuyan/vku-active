@@ -35,7 +35,7 @@ export const registerController = async (
   // // const { email, password } = req.body;
   // throw new Error('test error');
   const result = await userService.register(req.body);
-  // console.log(result);
+  console.log(result);
   return res.json({
     message: USERS_MESSAGES.REGISTER_SUCCESS,
     result
@@ -92,4 +92,18 @@ export const resendVerifyEmailController = async (req: Request, res: Response, n
 
   const result = await userService.resendVerifyEmail(user_id);
   return res.json(result);
+};
+
+export const getMeController = async (req: Request, res: Response, next: NextFunction) => {
+  const { user_id } = req.decoded_authorization as TokenPayload;
+  const user = await userService.getUserInfo(user_id);
+  if (!user) {
+    return res.status(HTTP_STATUS.NOT_FOUND).json({
+      message: USERS_MESSAGES.USER_NOT_FOUND
+    });
+  }
+  return res.json({
+    message: USERS_MESSAGES.GET_USER_INFO_SUCCESS,
+    result: user
+  });
 };

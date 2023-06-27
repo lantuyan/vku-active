@@ -47,5 +47,7 @@ export const USERS_MESSAGES = {
   USER_NOT_FOUND: 'User not found',
   EMAIL_VERIFY_SUCCESS: 'Email verify success',
   EMAIL_ALREADY_VERIFIED: 'Email already verified before',
-  RESEND_VERIFY_EMAIL_SUCCESS: 'Resend verify email success'
+  RESEND_VERIFY_EMAIL_SUCCESS: 'Resend verify email success',
+
+  GET_USER_INFO_SUCCESS: 'Get user info success'
 } as const;

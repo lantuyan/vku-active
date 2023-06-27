@@ -6,7 +6,8 @@ import {
   loginController,
   logoutController,
   registerController,
-  resendVerifyEmailController
+  resendVerifyEmailController,
+  getMeController
 } from '~/controllers/users.controllers';
 import {
   accessTokenValidator,
@@ -69,5 +70,23 @@ usersRouter.post('/verify-email', emailVerifyTokenValidator, wrapRequestHandler(
  * Body{}
  */
 usersRouter.post('/resend-verify-email', accessTokenValidator, wrapRequestHandler(resendVerifyEmailController));
+
+/**
+ * Get my profile
+ * Path: users/userInfo
+ * GET
+ * Header{Authorization: Bearer <access_token>}
+ * Body{}
+ */
+usersRouter.get('/userInfo', accessTokenValidator, wrapRequestHandler(getMeController));
+
+/**
+ * Get my profile
+ * Path: users/userInfo
+ * GET
+ * Header{Authorization: Bearer <access_token>}
+ * Body{}
+ */
+usersRouter.get('/userInfo', accessTokenValidator, wrapRequestHandler(getMeController));
 
 export default usersRouter;
