@@ -178,15 +178,15 @@ export const registerValidator = validate(
           }
         }
       },
-      date_of_birth: {
-        isISO8601: {
-          options: {
-            strict: true,
-            strictSeparator: true
-          },
-          errorMessage: USERS_MESSAGES.DATE_OF_BIRTH_MUST_BE_ISO08601
-        }
-      }
+      // date_of_birth: {
+      //   isISO8601: {
+      //     options: {
+      //       strict: true,
+      //       strictSeparator: true
+      //     },
+      //     errorMessage: USERS_MESSAGES.DATE_OF_BIRTH_MUST_BE_ISO08601
+      //   }
+      // }
     },
     ['body']
   )

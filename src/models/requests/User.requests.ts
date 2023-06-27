@@ -11,7 +11,7 @@ export interface RegisterRequestBody {
   email: string;
   password: string;
   confirmPassword: string;
-  date_of_birth: string;
+  // date_of_birth: string;
 }
 
 export interface LogoutRequestBody {

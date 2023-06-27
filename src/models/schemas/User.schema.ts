@@ -17,7 +17,7 @@ interface UserType {
   activities?: string[];
   totalScore?: number;
 
-  date_of_birth: Date;
+  date_of_birth?: Date;
 }
 
 class User {
