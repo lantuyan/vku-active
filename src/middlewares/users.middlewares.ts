@@ -313,3 +313,41 @@ export const emailVerifyTokenValidator = validate(
     ['body']
   )
 );
+
+export const signActivityValidator = validate(
+  checkSchema({
+    code: {
+      notEmpty: {
+        errorMessage: USERS_MESSAGES.CODE_REQUIRED
+      },
+      isString: {
+        errorMessage: USERS_MESSAGES.CODE_MUST_BE_STRING
+      },
+      custom: {
+        options: async (value) => {
+          const isExistCode = await databaseService.activities.findOne({ code: value });
+          if (!isExistCode) {
+            throw new Error(USERS_MESSAGES.ACTIVITY_NOT_FOUND);
+          }
+          return true;
+        }
+      }
+    },
+    userLatitude: {
+      notEmpty: {
+        errorMessage: USERS_MESSAGES.LATITUDE_REQUIRED
+      },
+      isString: {
+        errorMessage: USERS_MESSAGES.LATITUDE_MUST_BE_STRING
+      }
+    },
+    userLongitude: {
+      notEmpty: {
+        errorMessage: USERS_MESSAGES.LONGITUDE_REQUIRED
+      },
+      isString: {
+        errorMessage: USERS_MESSAGES.LONGITUDE_MUST_BE_STRING
+      }
+    }
+  })
+);

@@ -49,5 +49,23 @@ export const USERS_MESSAGES = {
   EMAIL_ALREADY_VERIFIED: 'Email already verified before',
   RESEND_VERIFY_EMAIL_SUCCESS: 'Resend verify email success',
 
-  GET_USER_INFO_SUCCESS: 'Get user info success'
+  GET_USER_INFO_SUCCESS: 'Get user info success',
+  UPDATE_USER_INFO_SUCCESS: 'Update user info success',
+
+  SIGN_ACTIVITY_SUCCESS: 'Sign activity success',
+
+  CODE_REQUIRED: 'Code is required',
+  CODE_MUST_BE_STRING: 'Code must be string',
+  CODE_NOT_EXIST: 'Code not exist',
+  CODE_IS_EXIST_BEFORE: 'Code is exist before',
+
+  LATITUDE_REQUIRED: 'Latitude is required',
+  LATITUDE_MUST_BE_STRING: 'Latitude must be number',
+
+  LONGITUDE_REQUIRED: 'Longitude is required',
+  LONGITUDE_MUST_BE_STRING: 'Longitude must be number',
+
+  ACTIVITY_NOT_FOUND: 'Activity not found',
+  ACTIVITY_ALREADY_IN_USER: 'Activity already in user',
+  USER_NOT_CORRECT_LOCATION: 'User not correct location'
 } as const;

@@ -14,6 +14,7 @@ import {
 import User from '~/models/schemas/User.schema';
 import databaseService from '~/services/database.services';
 import userService from '~/services/users.services';
+import { getDistance, getPreciseDistance } from 'geolib';
 
 export const loginController = async (req: Request<ParamsDictionary, any, LoginRequestBody>, res: Response) => {
   const user = req.user as User;
@@ -105,5 +106,55 @@ export const getMeController = async (req: Request, res: Response, next: NextFun
   return res.json({
     message: USERS_MESSAGES.GET_USER_INFO_SUCCESS,
     result: user
+  });
+};
+
+export const signActivityController = async (req: Request, res: Response, next: NextFunction) => {
+  const { user_id } = req.decoded_authorization as TokenPayload;
+
+  const { code, userLatitude, userLongitude } = req.body;
+  // Check code is exist in user
+  const user = await databaseService.users.findOne({
+    _id: new ObjectId(user_id),
+    activities: {
+      $eq: code
+    }
+  });
+  if (user) {
+    return res.json({
+      message: USERS_MESSAGES.ACTIVITY_ALREADY_IN_USER
+    });
+  }
+  // Check latitude and longitude equal
+  const Location = await databaseService.activities.findOne({
+    code: code
+  });
+
+  const pointUser = { latitude: userLatitude, longitude: userLongitude };
+  const pointActivity = { latitude: Location?.activityLatitude, longitude: Location?.activityLongitude };
+
+  if (Location) {
+    console.log(Location.activityLatitude, Location.activityLongitude, userLatitude, userLongitude);
+    const distance = getPreciseDistance(
+      { lat: parseFloat(pointUser.latitude), lng: parseFloat(pointUser.longitude) },
+      { lat: parseFloat(pointActivity.latitude as string), lng: parseFloat(pointActivity.longitude as string) }
+    );
+    console.log('distance ' + distance);
+    if (distance > 100) {
+      return res.json({
+        message:
+          USERS_MESSAGES.USER_NOT_CORRECT_LOCATION +
+          `. Bạn đang cách trường ${distance} mét. Vui lòng đến gần trường để hoàn thành hoạt động.`
+      });
+    }
+    // return res.json({
+    //   message: USERS_MESSAGES.USER_NOT_CORRECT_LOCATION
+    // });
+  }
+
+  const result = await userService.signActivity(user_id, code);
+  return res.json({
+    message: USERS_MESSAGES.SIGN_ACTIVITY_SUCCESS,
+    result
   });
 };

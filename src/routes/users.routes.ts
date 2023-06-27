@@ -1,20 +1,23 @@
 // import express from 'express';
 // const usersRouter = express.Router();
 import { Router } from 'express';
+import { sign } from 'jsonwebtoken';
 import {
   verifyEmailController,
   loginController,
   logoutController,
   registerController,
   resendVerifyEmailController,
-  getMeController
+  getMeController,
+  signActivityController
 } from '~/controllers/users.controllers';
 import {
   accessTokenValidator,
   emailVerifyTokenValidator,
   loginValidator,
   refreshTokenValidator,
-  registerValidator
+  registerValidator,
+  signActivityValidator
 } from '~/middlewares/users.middlewares';
 import { wrapRequestHandler } from '~/utils/handlers';
 const usersRouter = Router();
@@ -83,10 +86,17 @@ usersRouter.get('/userInfo', accessTokenValidator, wrapRequestHandler(getMeContr
 /**
  * SignActivivy
  * Path: users/signAcitivy
- * GET
+ * POST
  * Header{Authorization: Bearer <access_token>}
- * Body{}
+ * Body{
+ * activity: string,
+ * }
  */
-usersRouter.get('/signActivity', accessTokenValidator, wrapRequestHandler(getMeController));
+usersRouter.post(
+  '/signActivity',
+  accessTokenValidator,
+  signActivityValidator,
+  wrapRequestHandler(signActivityController)
+);
 
 export default usersRouter;

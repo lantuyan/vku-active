@@ -2,6 +2,7 @@ import { MongoClient, Db, Collection } from 'mongodb';
 import { config } from 'dotenv';
 import User from '~/models/schemas/User.schema';
 import RefreshToken from '~/models/schemas/RefreshToken.schema';
+import Activity from '~/models/schemas/Activity.schema';
 config();
 // console.log(process.env.DB_USERNAME);
 
@@ -33,6 +34,9 @@ class DatabaseService {
   }
   get refreshTokens(): Collection<RefreshToken> {
     return this.db.collection(process.env.DB_REFRESH_TOKENS_COLLECTION as string);
+  }
+  get activities(): Collection<Activity> {
+    return this.db.collection(process.env.DB_ACTIVITY_COLLECTION as string);
   }
 }
 

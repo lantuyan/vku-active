@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 import { TokenType, UserVerifyStatus } from '~/constants/enum';
 import { USERS_MESSAGES } from '~/constants/messages';
-import { RegisterRequestBody } from '~/models/requests/User.requests';
+import { ActivityRequestBody, RegisterRequestBody } from '~/models/requests/User.requests';
 import RefreshToken from '~/models/schemas/RefreshToken.schema';
 import User from '~/models/schemas/User.schema';
 import databaseService from '~/services/database.services';
@@ -174,6 +174,19 @@ class UsersService {
       }
     );
     return user;
+  }
+
+  async signActivity(user_id: string, code: any) {
+    await databaseService.users.updateOne(
+      {
+        _id: new ObjectId(user_id)
+      },
+      {
+        $push: {
+          activities: code
+        }
+      }
+    );
   }
 }
 
