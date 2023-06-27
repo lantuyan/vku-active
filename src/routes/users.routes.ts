@@ -81,12 +81,12 @@ usersRouter.post('/resend-verify-email', accessTokenValidator, wrapRequestHandle
 usersRouter.get('/userInfo', accessTokenValidator, wrapRequestHandler(getMeController));
 
 /**
- * Get my profile
- * Path: users/userInfo
+ * SignActivivy
+ * Path: users/signAcitivy
  * GET
  * Header{Authorization: Bearer <access_token>}
  * Body{}
  */
-usersRouter.get('/userInfo', accessTokenValidator, wrapRequestHandler(getMeController));
+usersRouter.get('/signActivity', accessTokenValidator, wrapRequestHandler(getMeController));
 
 export default usersRouter;

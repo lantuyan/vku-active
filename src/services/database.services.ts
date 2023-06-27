@@ -5,7 +5,7 @@ import RefreshToken from '~/models/schemas/RefreshToken.schema';
 config();
 // console.log(process.env.DB_USERNAME);
 
-const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@vku-active.bnyvsqs.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_LINK}`;
 
 const client = new MongoClient(uri);
 
