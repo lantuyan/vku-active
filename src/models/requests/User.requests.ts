@@ -18,6 +18,10 @@ export interface LogoutRequestBody {
   refresh_token: string;
 }
 
+export interface ForgotPasswordRequestBody {
+  _id: string;
+}
+
 export interface VerifyEmailRequestBody {
   email_verify_token?: string;
 }
@@ -28,6 +32,6 @@ export interface TokenPayload extends JwtPayload {
 
 export interface ActivityRequestBody {
   code: string;
-  lattutue?: string;
-  longitude?: string;
+  userLatitude?: string;
+  userLongitude?: string;
 }

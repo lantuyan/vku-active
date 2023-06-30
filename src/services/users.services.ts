@@ -34,6 +34,19 @@ class UsersService {
       }
     });
   }
+  private signForgotPasswordToken(user_id: string) {
+    return signToken({
+      payload: {
+        user_id,
+        token_type: TokenType.ForgotPasswordToken
+      },
+      privateKey: process.env.JWT_SECRET_FORGOT_PASSWORD_TOKEN as string,
+      options: {
+        expiresIn: process.env.FORGOT_PASSWORD_TOKEN_EXPIRES_IN
+      }
+    });
+  }
+
   private signEmailVerifyToken(user_id: string) {
     return signToken({
       payload: {
@@ -162,6 +175,25 @@ class UsersService {
     };
   }
 
+  async forgotPassword(user_id: string) {
+    const forgot_password_token = await this.signForgotPasswordToken(user_id);
+    console.log('forgotPassword: ', forgot_password_token);
+    await databaseService.users.updateOne(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: {
+          forgot_password_token,
+          updated_at: new Date()
+        }
+      }
+    );
+    // Send email link to user: https://localhost:3000/forgot-password?token=token
+    console.log('forgot_password_tolen: ', forgot_password_token);
+    return {
+      message: USERS_MESSAGES.CHECK_EMAIL_FORGOT_PASSWORD_SUCCESS
+    };
+  }
+
   async getUserInfo(user_id: string) {
     const user = await databaseService.users.findOne(
       { _id: new ObjectId(user_id) },
@@ -174,6 +206,48 @@ class UsersService {
       }
     );
     return user;
+  }
+
+  async getActivityInfo(code: string) {
+    const activity = await databaseService.activities.findOne(
+      { code: code },
+      {
+        projection: {
+          _id: 0,
+          activityLatitude: 0,
+          activityLongitude: 0
+        }
+      }
+    );
+    return activity;
+  }
+
+  async getAllActivityofUser(user_id: string) {
+    const user = await databaseService.users.findOne(
+      { _id: new ObjectId(user_id) },
+      {
+        projection: {
+          activities: 1
+        }
+      }
+    );
+    const arrayActivities = user?.activities;
+    const result = await databaseService.activities
+      .find(
+        {
+          code: {
+            $in: arrayActivities
+          }
+        },
+        {
+          projection: {
+            activityLatitude: 0,
+            activityLongitude: 0
+          }
+        }
+      )
+      .toArray();
+    return result;
   }
 
   async signActivity(user_id: string, code: any) {

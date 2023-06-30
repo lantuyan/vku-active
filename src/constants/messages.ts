@@ -49,8 +49,12 @@ export const USERS_MESSAGES = {
   EMAIL_ALREADY_VERIFIED: 'Email already verified before',
   RESEND_VERIFY_EMAIL_SUCCESS: 'Resend verify email success',
 
+  CHECK_EMAIL_FORGOT_PASSWORD_SUCCESS: 'Check email forgot password success',
+
   GET_USER_INFO_SUCCESS: 'Get user info success',
   UPDATE_USER_INFO_SUCCESS: 'Update user info success',
+
+  GET_ACTIVITY_INFO_SUCCESS: 'Get activity info success',
 
   SIGN_ACTIVITY_SUCCESS: 'Sign activity success',
 

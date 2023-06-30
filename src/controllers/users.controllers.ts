@@ -5,6 +5,8 @@ import { UserVerifyStatus } from '~/constants/enum';
 import HTTP_STATUS from '~/constants/httpStatus';
 import { USERS_MESSAGES } from '~/constants/messages';
 import {
+  ActivityRequestBody,
+  ForgotPasswordRequestBody,
   LoginRequestBody,
   LogoutRequestBody,
   RegisterRequestBody,
@@ -95,6 +97,16 @@ export const resendVerifyEmailController = async (req: Request, res: Response, n
   return res.json(result);
 };
 
+export const forgotPasswordController = async (
+  req: Request<ParamsDictionary, any, ForgotPasswordRequestBody>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { _id } = req.user as User;
+  const result = await userService.forgotPassword((_id as ObjectId).toString());
+  return res.json(result);
+};
+
 export const getMeController = async (req: Request, res: Response, next: NextFunction) => {
   const { user_id } = req.decoded_authorization as TokenPayload;
   const user = await userService.getUserInfo(user_id);
@@ -108,8 +120,39 @@ export const getMeController = async (req: Request, res: Response, next: NextFun
     result: user
   });
 };
+export const getActivityInfoController = async (req: Request, res: Response, next: NextFunction) => {
+  const { code } = req.body;
+  const activity = await userService.getActivityInfo(code);
+  if (!activity) {
+    return res.status(HTTP_STATUS.NOT_FOUND).json({
+      message: USERS_MESSAGES.ACTIVITY_NOT_FOUND
+    });
+  }
+  return res.json({
+    message: USERS_MESSAGES.GET_ACTIVITY_INFO_SUCCESS,
+    result: activity
+  });
+};
 
-export const signActivityController = async (req: Request, res: Response, next: NextFunction) => {
+export const getallActivitiesofUserController = async (req: Request, res: Response, next: NextFunction) => {
+  const { user_id } = req.decoded_authorization as TokenPayload;
+  const user = await userService.getAllActivityofUser(user_id);
+  if (!user) {
+    return res.status(HTTP_STATUS.NOT_FOUND).json({
+      message: USERS_MESSAGES.USER_NOT_FOUND
+    });
+  }
+  return res.json({
+    message: USERS_MESSAGES.GET_USER_INFO_SUCCESS,
+    result: user
+  });
+};
+
+export const signActivityController = async (
+  req: Request<ParamsDictionary, any, ActivityRequestBody>,
+  res: Response,
+  next: NextFunction
+) => {
   const { user_id } = req.decoded_authorization as TokenPayload;
 
   const { code, userLatitude, userLongitude } = req.body;
@@ -130,7 +173,7 @@ export const signActivityController = async (req: Request, res: Response, next: 
     code: code
   });
 
-  const pointUser = { latitude: userLatitude, longitude: userLongitude };
+  const pointUser = { latitude: userLatitude as string, longitude: userLongitude as string };
   const pointActivity = { latitude: Location?.activityLatitude, longitude: Location?.activityLongitude };
 
   if (Location) {

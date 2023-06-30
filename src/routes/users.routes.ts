@@ -9,11 +9,15 @@ import {
   registerController,
   resendVerifyEmailController,
   getMeController,
-  signActivityController
+  signActivityController,
+  forgotPasswordController,
+  getActivityInfoController,
+  getallActivitiesofUserController
 } from '~/controllers/users.controllers';
 import {
   accessTokenValidator,
   emailVerifyTokenValidator,
+  forgotPasswordValidator,
   loginValidator,
   refreshTokenValidator,
   registerValidator,
@@ -75,6 +79,14 @@ usersRouter.post('/verify-email', emailVerifyTokenValidator, wrapRequestHandler(
 usersRouter.post('/resend-verify-email', accessTokenValidator, wrapRequestHandler(resendVerifyEmailController));
 
 /**
+ * Submit email to reset password of a user, send email to user
+ * Path: user/forgot-password
+ * POST
+ * Body{email: string}
+ */
+usersRouter.post('/forgot-password', forgotPasswordValidator, wrapRequestHandler(forgotPasswordController));
+
+/**
  * Get my profile
  * Path: users/userInfo
  * GET
@@ -82,6 +94,23 @@ usersRouter.post('/resend-verify-email', accessTokenValidator, wrapRequestHandle
  * Body{}
  */
 usersRouter.get('/userInfo', accessTokenValidator, wrapRequestHandler(getMeController));
+/**
+ * Get activity info
+ * Path: users/activityInfo
+ * GET
+ * Header{Authorization: Bearer <access_token>}
+ * Body{code: string}
+ */
+usersRouter.get('/activityInfo', accessTokenValidator, wrapRequestHandler(getActivityInfoController));
+
+/**
+ * Get activity info
+ * Path: users/allActivitiesofUser
+ * GET
+ * Header{Authorization: Bearer <access_token>}
+ * Body{}
+ */
+usersRouter.get('/allActivitiesofUser', accessTokenValidator, wrapRequestHandler(getallActivitiesofUserController));
 
 /**
  * SignActivivy

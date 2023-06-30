@@ -314,6 +314,36 @@ export const emailVerifyTokenValidator = validate(
   )
 );
 
+export const forgotPasswordValidator = validate(
+  checkSchema(
+    {
+      email: {
+        notEmpty: {
+          errorMessage: USERS_MESSAGES.EMAIL_REQUIRED
+        },
+        isEmail: {
+          errorMessage: USERS_MESSAGES.EMAIL_INVALID
+        },
+        trim: true,
+        custom: {
+          options: async (value, { req }) => {
+            // const user = await databaseService.users.findOne({ email: value });
+            const user = await databaseService.users.findOne({
+              email: value
+            });
+            if (user === null) {
+              throw new Error(USERS_MESSAGES.USER_NOT_FOUND);
+            }
+            req.user = user;
+            return true;
+          }
+        }
+      }
+    },
+    ['body']
+  )
+);
+
 export const signActivityValidator = validate(
   checkSchema({
     code: {
