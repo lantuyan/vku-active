@@ -114,7 +114,7 @@ usersRouter.get('/userInfo', accessTokenValidator, wrapRequestHandler(getUserInf
 /**
  * Update user profile
  * Path: users/userInfo
- * PATC
+ * PATCH
  * Header{Authorization: Bearer <access_token>}
  * Body{UserSchema}
  */

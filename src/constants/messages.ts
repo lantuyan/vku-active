@@ -74,6 +74,7 @@ export const USERS_MESSAGES = {
   LONGITUDE_MUST_BE_STRING: 'Longitude must be number',
 
   ACTIVITY_NOT_FOUND: 'Activity not found',
+  ACTIVITY_TIME_OUT: 'Activity time out',
   ACTIVITY_ALREADY_IN_USER: 'Activity already in user',
   USER_NOT_CORRECT_LOCATION: 'User not correct location'
 } as const;

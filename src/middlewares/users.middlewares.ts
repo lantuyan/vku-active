@@ -444,9 +444,26 @@ export const signActivityValidator = validate(
       },
       custom: {
         options: async (value) => {
-          const isExistCode = await databaseService.activities.findOne({ code: value });
+          const [isExistCode, isTimeOut] = await Promise.all([
+            databaseService.activities.findOne({ code: value }),
+            databaseService.activities.findOne({
+              code: value,
+              end_time: { $gt: new Date().toISOString() }
+            })
+          ]);
+          // const isExistCode = await databaseService.activities.findOne({ code: value });
+          // const isTimeOut = await databaseService.activities.findOne({
+          //   code: value,
+          //   end_time: {
+          //     $gt: new Date().toISOString()
+          //   }
+          // });
+
           if (!isExistCode) {
             throw new Error(USERS_MESSAGES.ACTIVITY_NOT_FOUND);
+          }
+          if (!isTimeOut) {
+            throw new Error(USERS_MESSAGES.ACTIVITY_TIME_OUT);
           }
           return true;
         }
