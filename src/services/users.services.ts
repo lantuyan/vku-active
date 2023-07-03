@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 import { TokenType, UserVerifyStatus } from '~/constants/enum';
 import { USERS_MESSAGES } from '~/constants/messages';
-import { ActivityRequestBody, RegisterRequestBody } from '~/models/requests/User.requests';
+import { ActivityRequestBody, RegisterRequestBody, UpdateUserRequestBody } from '~/models/requests/User.requests';
 import RefreshToken from '~/models/schemas/RefreshToken.schema';
 import User from '~/models/schemas/User.schema';
 import databaseService from '~/services/database.services';
@@ -206,6 +206,28 @@ class UsersService {
       }
     );
     return user;
+  }
+
+  async updateUserInfo(user_id: string, payload: UpdateUserRequestBody) {
+    const _payload = payload.date_of_birth ? { ...payload, date_of_birth: new Date(payload.date_of_birth) } : payload;
+    const user = await databaseService.users.findOneAndUpdate(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: {
+          ...(_payload as UpdateUserRequestBody & { date_of_birth?: Date }),
+          updated_at: new Date()
+        }
+      },
+      {
+        returnDocument: 'after',
+        projection: {
+          password: 0,
+          email_verify_token: 0,
+          forgot_password_token: 0
+        }
+      }
+    );
+    return user.value;
   }
 
   async getActivityInfo(code: string) {

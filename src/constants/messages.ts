@@ -28,6 +28,7 @@ export const USERS_MESSAGES = {
     'Confirm password must be at least 8 characters long and contain at least 1 lowercase, 1 uppercase, 1 number and 1 symbol',
   CONFIRM_PASSWORD_MUST_MATCH: 'Confirm password must match password',
 
+  CLASS_MUST_BE_STRING: 'Class must be string',
   DATE_OF_BIRTH_MUST_BE_ISO08601: 'Date of birth must be ISO08601 format',
 
   LOGIN_SUCCESS: 'Login success',
@@ -50,6 +51,9 @@ export const USERS_MESSAGES = {
   RESEND_VERIFY_EMAIL_SUCCESS: 'Resend verify email success',
 
   CHECK_EMAIL_FORGOT_PASSWORD_SUCCESS: 'Check email forgot password success',
+  FORGOT_PASSWORD_TOKEN_REQUIRED: 'Forgot password token is required',
+  VERIFY_FORGOT_PASSWORD_SUCCESS: 'Verify forgot password success',
+  INVALID_FORGOT_PASSWORD_TOKEN: 'Invalid forgot password token',
 
   GET_USER_INFO_SUCCESS: 'Get user info success',
   UPDATE_USER_INFO_SUCCESS: 'Update user info success',

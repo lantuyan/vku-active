@@ -8,11 +8,13 @@ import {
   logoutController,
   registerController,
   resendVerifyEmailController,
-  getMeController,
+  getUserInfoController,
   signActivityController,
   forgotPasswordController,
   getActivityInfoController,
-  getallActivitiesofUserController
+  getallActivitiesofUserController,
+  verifyForgotPasswordController,
+  updateUserInfoController
 } from '~/controllers/users.controllers';
 import {
   accessTokenValidator,
@@ -21,7 +23,9 @@ import {
   loginValidator,
   refreshTokenValidator,
   registerValidator,
-  signActivityValidator
+  signActivityValidator,
+  updateUserInfoValidator,
+  verifyForgotPasswordTokenValidator
 } from '~/middlewares/users.middlewares';
 import { wrapRequestHandler } from '~/utils/handlers';
 const usersRouter = Router();
@@ -87,13 +91,40 @@ usersRouter.post('/resend-verify-email', accessTokenValidator, wrapRequestHandle
 usersRouter.post('/forgot-password', forgotPasswordValidator, wrapRequestHandler(forgotPasswordController));
 
 /**
- * Get my profile
+ * Verify link in email to reset password of user.
+ * Path: user/verify-forgot-password
+ * POST
+ * Body{forgot_password_token: string}
+ */
+usersRouter.post(
+  '/verify-forgot-password',
+  verifyForgotPasswordTokenValidator,
+  wrapRequestHandler(verifyForgotPasswordController)
+);
+
+/**
+ * Get user profile
  * Path: users/userInfo
  * GET
  * Header{Authorization: Bearer <access_token>}
  * Body{}
  */
-usersRouter.get('/userInfo', accessTokenValidator, wrapRequestHandler(getMeController));
+usersRouter.get('/userInfo', accessTokenValidator, wrapRequestHandler(getUserInfoController));
+
+/**
+ * Update user profile
+ * Path: users/userInfo
+ * PATC
+ * Header{Authorization: Bearer <access_token>}
+ * Body{UserSchema}
+ */
+usersRouter.patch(
+  '/userInfo',
+  accessTokenValidator,
+  updateUserInfoValidator,
+  wrapRequestHandler(updateUserInfoController)
+);
+
 /**
  * Get activity info
  * Path: users/activityInfo

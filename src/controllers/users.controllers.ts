@@ -11,7 +11,9 @@ import {
   LogoutRequestBody,
   RegisterRequestBody,
   TokenPayload,
-  VerifyEmailRequestBody
+  UpdateUserRequestBody,
+  VerifyEmailRequestBody,
+  VerifyForgotPasswordRequestBody
 } from '~/models/requests/User.requests';
 import User from '~/models/schemas/User.schema';
 import databaseService from '~/services/database.services';
@@ -107,7 +109,16 @@ export const forgotPasswordController = async (
   return res.json(result);
 };
 
-export const getMeController = async (req: Request, res: Response, next: NextFunction) => {
+export const verifyForgotPasswordController = async (
+  req: Request<ParamsDictionary, any, VerifyForgotPasswordRequestBody>,
+  res: Response,
+  next: NextFunction
+) => {
+  return res.json({
+    message: USERS_MESSAGES.VERIFY_FORGOT_PASSWORD_SUCCESS
+  });
+};
+export const getUserInfoController = async (req: Request, res: Response, next: NextFunction) => {
   const { user_id } = req.decoded_authorization as TokenPayload;
   const user = await userService.getUserInfo(user_id);
   if (!user) {
@@ -120,6 +131,26 @@ export const getMeController = async (req: Request, res: Response, next: NextFun
     result: user
   });
 };
+
+export const updateUserInfoController = async (
+  req: Request<ParamsDictionary, any, UpdateUserRequestBody>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayload;
+  const { body } = req;
+  const result = await userService.updateUserInfo(user_id, body);
+  if (!result) {
+    return res.status(HTTP_STATUS.NOT_FOUND).json({
+      message: USERS_MESSAGES.USER_NOT_FOUND
+    });
+  }
+  return res.json({
+    message: USERS_MESSAGES.UPDATE_USER_INFO_SUCCESS,
+    result
+  });
+};
+
 export const getActivityInfoController = async (req: Request, res: Response, next: NextFunction) => {
   const { code } = req.body;
   const activity = await userService.getActivityInfo(code);
