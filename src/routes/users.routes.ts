@@ -127,12 +127,12 @@ usersRouter.patch(
 
 /**
  * Get activity info
- * Path: users/activityInfo
+ * Path: users/activityInfo/:code
  * GET
  * Header{Authorization: Bearer <access_token>}
  * Body{code: string}
  */
-usersRouter.get('/activityInfo', accessTokenValidator, wrapRequestHandler(getActivityInfoController));
+usersRouter.get('/activityInfo/:code', accessTokenValidator, wrapRequestHandler(getActivityInfoController));
 
 /**
  * Get activity info
@@ -141,7 +141,7 @@ usersRouter.get('/activityInfo', accessTokenValidator, wrapRequestHandler(getAct
  * Header{Authorization: Bearer <access_token>}
  * Body{}
  */
-usersRouter.get('/allActivitiesofUser', accessTokenValidator, wrapRequestHandler(getallActivitiesofUserController));
+usersRouter.get('/allActivitiesofUser/', accessTokenValidator, wrapRequestHandler(getallActivitiesofUserController));
 
 /**
  * SignActivivy

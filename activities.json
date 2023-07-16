@@ -1,0 +1,49 @@
+[{
+  "_id": {
+    "$oid": "649f1212ddd55c88ce4d3670"
+  },
+  "code": "ABCDE",
+  "name": "Cuộc thi ETC 2023 thông báo lịch thi và danh sách các hội đồng Vòng Sơ loại 1",
+  "activityLatitude": "15.978505",
+  "activityLongitude": "108.248843",
+  "score": "50",
+  "location": "Hội trường tròn khu K",
+  "end_time": "2024-07-30T10:30:00.000+00:00",
+  "start_time": "2023-06-30T10:30:00.000+00:00"
+},{
+  "_id": {
+    "$oid": "649f1449ddd55c88ce4d3673"
+  },
+  "code": "OcyKQ1",
+  "name": "tham dự lễ tốt nghiệp đối với sinh viên tốt nghiệp năm học 2022-2023",
+  "activityLatitude": "15.978505",
+  "activityLongitude": "108.248843",
+  "score": "50",
+  "location": "Hội trường tròn khu K",
+  "start_time": "2023-06-30T07:30:00.000+00:00",
+  "end_time": "2023-06-30T10:30:00.000+00:00"
+},{
+  "_id": {
+    "$oid": "649f1462ddd55c88ce4d3674"
+  },
+  "code": "fb9yZe",
+  "name": "Tham dự hội nghị VKU cấp quốc gia",
+  "activityLatitude": "15.978505",
+  "activityLongitude": "108.248843",
+  "score": "200",
+  "location": "Hội trường tròn khu K",
+  "end_time": "2023-06-30T10:30:00.000+00:00",
+  "start_time": "2023-06-30T07:30:00.000+00:00"
+},{
+  "_id": {
+    "$oid": "64a2e1c930b12c9674a05ef2"
+  },
+  "code": "2DMAcz",
+  "name": "Cuộc thi BWD Vòng Sơ loại 1",
+  "activityLatitude": "15.978505",
+  "activityLongitude": "108.248843",
+  "score": "50",
+  "location": "Hội trường tròn khu K",
+  "end_time": "2024-07-30T10:30:00.000+00:00",
+  "start_time": "2023-06-30T10:30:00.000+00:00"
+}]

@@ -152,7 +152,8 @@ export const updateUserInfoController = async (
 };
 
 export const getActivityInfoController = async (req: Request, res: Response, next: NextFunction) => {
-  const { code } = req.body;
+  const { code } = req.params;
+  console.log(req.params);
   const activity = await userService.getActivityInfo(code);
   if (!activity) {
     return res.status(HTTP_STATUS.NOT_FOUND).json({

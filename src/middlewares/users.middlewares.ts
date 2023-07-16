@@ -451,14 +451,6 @@ export const signActivityValidator = validate(
               end_time: { $gt: new Date().toISOString() }
             })
           ]);
-          // const isExistCode = await databaseService.activities.findOne({ code: value });
-          // const isTimeOut = await databaseService.activities.findOne({
-          //   code: value,
-          //   end_time: {
-          //     $gt: new Date().toISOString()
-          //   }
-          // });
-
           if (!isExistCode) {
             throw new Error(USERS_MESSAGES.ACTIVITY_NOT_FOUND);
           }
