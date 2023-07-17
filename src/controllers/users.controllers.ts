@@ -196,7 +196,7 @@ export const signActivityController = async (
     }
   });
   if (user) {
-    return res.json({
+    return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).json({
       message: USERS_MESSAGES.ACTIVITY_ALREADY_IN_USER
     });
   }
@@ -216,7 +216,7 @@ export const signActivityController = async (
     );
     console.log('distance ' + distance);
     if (distance > 100) {
-      return res.json({
+      return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).json({
         message:
           USERS_MESSAGES.USER_NOT_CORRECT_LOCATION +
           `. Bạn đang cách trường ${distance} mét. Vui lòng đến gần trường để hoàn thành hoạt động.`
@@ -228,7 +228,7 @@ export const signActivityController = async (
   }
 
   const result = await userService.signActivity(user_id, code);
-  return res.json({
+  return res.status(HTTP_STATUS.OK).json({
     message: USERS_MESSAGES.SIGN_ACTIVITY_SUCCESS,
     result
   });
