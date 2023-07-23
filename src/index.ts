@@ -2,6 +2,8 @@ import express from 'express';
 import usersRouter from './routes/users.routes';
 import databaseService from './services/database.services';
 import { defaultErrorHandler } from './middlewares/error.middlewares';
+import path from 'path';
+import adminRouter from './routes/admin.routes';
 const app = express();
 databaseService.connect();
 const PORT = 3000;
@@ -12,6 +14,14 @@ app.get('/', (req, res) => {
 });
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use('/admin', adminRouter);
+
+// app.use(methodOverride('_method'));
 app.use('/users', usersRouter);
 
 // Error handler
