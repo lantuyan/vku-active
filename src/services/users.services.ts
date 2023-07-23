@@ -272,7 +272,11 @@ class UsersService {
     return result;
   }
 
-  async signActivity(user_id: string, code: any) {
+  async signActivity(user_id: string, code: any, score: number) {
+    const user = await databaseService.users.findOne({ _id: new ObjectId(user_id) });
+    const userScore = user?.totalScore || 0;
+    const newScore = +userScore + +score;
+    // console.log(`${userScore} + ${score} = ${newScore}`);
     await databaseService.users.updateOne(
       {
         _id: new ObjectId(user_id)
@@ -280,6 +284,9 @@ class UsersService {
       {
         $push: {
           activities: code
+        },
+        $set: {
+          totalScore: newScore
         }
       }
     );

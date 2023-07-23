@@ -226,8 +226,8 @@ export const signActivityController = async (
     //   message: USERS_MESSAGES.USER_NOT_CORRECT_LOCATION
     // });
   }
-
-  const result = await userService.signActivity(user_id, code);
+  const score = Location?.score || 0;
+  const result = await userService.signActivity(user_id, code, score);
   return res.status(HTTP_STATUS.OK).json({
     message: USERS_MESSAGES.SIGN_ACTIVITY_SUCCESS,
     result
