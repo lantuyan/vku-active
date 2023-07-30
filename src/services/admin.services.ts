@@ -7,14 +7,19 @@ class AdminServie {
         {},
         {
           projection: {
-            _id: 0,
-            activityLatitude: 0,
-            activityLongitude: 0
+            _id: 0
+            // activityLatitude: 0,
+            // activityLongitude: 0
           }
         }
       )
       .toArray();
     return activities;
+  }
+
+  async createActivity(activity: any) {
+    const result = await databaseService.activities.insertOne(activity);
+    return result;
   }
 }
 

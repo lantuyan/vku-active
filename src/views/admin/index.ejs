@@ -5,11 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ADMIN - VKU - ACTIVE </title>
 </head>
+
 <body>
   <h1>Activities List</h1>
+  <h2>Activities List</h2>
+  <% if (activities.length) { %>
+    <ol>
+      <% activities.forEach(function(activity) { %>
+        <li>
+          <a href="/admin/activities/<%= activity.code %>">
+            <%= activity.name %>
+          </a>
+          <ul>
+            <li>
+              Mã Code: <%= activity.code %>
+            </li>
+            <li>
+              Score: <%= activity.score %>
+            </li>
+            <li>
+              Location: <%= activity.location %>
+            </li>
+            <li>
+              Bắt đầu: <%= activity.start_time %>
+            </li>
+            <li>
+              Kết thúc: <%= activity.end_time %>
+            </li>
+          </ul>
+       
+          
+        </li>
+      <% })}; %>
+    </ol>
 
-  <h2>
-    <%= title %>
-  </h2>
+    <hr>
+    <a href="/admin/activities/new">New Activity</a>
 </body>
 </html>

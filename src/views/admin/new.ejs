@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Activity</title>
+</head>
+<body>
+  <h1>Create New Activity</h1>
+
+  <form action="/admin/activities" method="post">
+    // code, name, score, location, activityLatitude, activityLongitude, start_time, end_time
+    <section>
+      <label for="code">Code: </label>
+      <input type="text" name="code" id="code">
+      <br>
+    </section>
+    <section>
+      <label for="name">Name: </label>
+      <input type="text" name="name" id="name">
+      <br>
+    </section>
+    <section>
+      <label for="score">Score: </label>
+      <input type="text" name="score" id="score">
+      <br>
+    </section>
+    <section>
+      <label for="location">Location: </label>
+      <input type="text" name="location" id="location">
+      <br>
+    </section>
+    <section>
+      <label for="activityLatitude">Activity Latitude: </label>
+      <input type="text" name="activityLatitude" id="activityLatitude">
+      <br>
+    </section>
+    <section>
+      <label for="activityLongitude">Activity Longitude: </label>
+      <input type="text" name="activityLongitude" id="activityLongitude">
+      <br>
+    </section>
+    <section>
+      <label for="start_time">Start Time: </label>
+      <input type="text" name="start_time" id="start_time">
+      <br>
+    </section>
+    <section>
+      <label for="end_time">End Time: </label>
+      <input type="text" name="end_time" id="end_time">
+      <br>
+    </section>
+    <button type="submit">Submit</button>
+  </form>
+  <hr>
+  <a href="/admin/activities">Back to Index</a>
+</body>
+</html>
