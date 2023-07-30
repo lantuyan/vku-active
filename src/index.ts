@@ -7,7 +7,7 @@ import adminRouter from './routes/admin.routes';
 const app = express();
 databaseService.connect();
 const PORT = 3000;
-
+import methodOverride from 'method-override';
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/', (req, res) => {
   res.send('hello world');
@@ -15,6 +15,8 @@ app.get('/', (req, res) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(methodOverride('_method'));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

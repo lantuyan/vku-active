@@ -4,55 +4,146 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>New Activity</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: flex-start;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    .image-qr {
+      width: 23%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .image-qr img {
+      width: 100%;
+      height: auto;
+    }
+    section {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    label {
+      width: 150px;
+    }
+    input {
+      width: 200px;
+    }
+    button {
+      width: 100px;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
   <h1>Create New Activity</h1>
 
-  <form action="/admin/activities" method="post">
-    // code, name, score, location, activityLatitude, activityLongitude, start_time, end_time
-    <section>
-      <label for="code">Code: </label>
-      <input type="text" name="code" id="code">
-      <br>
-    </section>
-    <section>
-      <label for="name">Name: </label>
-      <input type="text" name="name" id="name">
-      <br>
-    </section>
-    <section>
-      <label for="score">Score: </label>
-      <input type="text" name="score" id="score">
-      <br>
-    </section>
-    <section>
-      <label for="location">Location: </label>
-      <input type="text" name="location" id="location">
-      <br>
-    </section>
-    <section>
-      <label for="activityLatitude">Activity Latitude: </label>
-      <input type="text" name="activityLatitude" id="activityLatitude">
-      <br>
-    </section>
-    <section>
-      <label for="activityLongitude">Activity Longitude: </label>
-      <input type="text" name="activityLongitude" id="activityLongitude">
-      <br>
-    </section>
-    <section>
-      <label for="start_time">Start Time: </label>
-      <input type="text" name="start_time" id="start_time">
-      <br>
-    </section>
-    <section>
-      <label for="end_time">End Time: </label>
-      <input type="text" name="end_time" id="end_time">
-      <br>
-    </section>
-    <button type="submit">Submit</button>
-  </form>
+  <div class="container">
+    <form action="/admin/activities" method="post">
+      <section>
+        <label for="code">Code: </label>
+        <input type="text" name="code" id="code">
+        <br>
+      </section>
+      <section>
+        <label for="name">Name: </label>
+        <input type="text" name="name" id="name">
+        <br>
+      </section>
+      <section>
+        <label for="score">Score: </label>
+        <input type="text" name="score" id="score">
+        <br>
+      </section>
+      <section>
+        <label for="location">Location: </label>
+        <input type="text" name="location" id="location">
+        <br>
+      </section>
+      <section>
+        <label for="activityLatitude">Activity Latitude: </label>
+        <input type="text" name="activityLatitude" id="activityLatitude">
+        <br>
+      </section>
+      <section>
+        <label for="activityLongitude">Activity Longitude: </label>
+        <input type="text" name="activityLongitude" id="activityLongitude">
+        <br>
+      </section>
+      <section>
+        <label for="start_time">Start Time: </label>
+        <input type="datetime-local" name="date_start_time" id="date_start_time">
+        <input type="text" name="start_time" id="start_time" style="display: none;">
+        <br>
+      </section>
+      <section>
+        <label for="end_time">End Time: </label>
+        <input type="datetime-local" name="date_end_time" id="date_end_time">
+        <input type="text" name="end_time" id="end_time" style="display: none;">
+        <br>
+      </section>
+      <button type="submit">Submit</button>
+    </form>
+    <div class="image-qr">
+      <img src="" alt="QR Code">
+    </div>
+  </div>
+
   <hr>
   <a href="/admin/activities">Back to Index</a>
+
+  <script>
+    function makeid(length) {
+      let result = '';
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      const charactersLength = characters.length;
+      let counter = 0;
+      while (counter < length) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
+      }
+      return result;
+    }
+    function makeQR() {
+      const code = document.getElementById('code').value;
+      const url = `https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=${code}`;
+      document.querySelector('.image-qr img').src = url;
+    }
+    document.getElementById('code').value = makeid(6);
+    makeQR();
+    document.getElementById('code').addEventListener('keyup', () => {
+      makeQR();
+    });
+
+    const startTimeInput = document.getElementById('date_start_time');
+    startTimeInput.addEventListener('change', () => {
+      const datetimeLocal = startTimeInput.value + ':00.000+00:00';
+      document.getElementById('start_time').setAttribute('value', datetimeLocal);
+      console.log(datetimeLocal);
+    });
+    const endTimeInput = document.getElementById('date_end_time');
+    endTimeInput.addEventListener('change', () => {
+      const datetimeLocal = endTimeInput.value + ':00.000+00:00';
+      document.getElementById('end_time').setAttribute('value', datetimeLocal);
+      console.log(datetimeLocal);
+    });
+    document.getElementById('activityLatitude').value = 15.974968;
+    document.getElementById('activityLongitude').value = 108.251482;
+    document.getElementById('location').value = 'Hội trường Khu K';
+
+  </script>
 </body>
 </html>

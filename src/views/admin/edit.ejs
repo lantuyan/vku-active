@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Activity</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: flex-start;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    .image-qr {
+      width: 23%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .image-qr img {
+      width: 100%;
+      height: auto;
+    }
+    section {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    label {
+      width: 150px;
+    }
+    input {
+      width: 200px;
+    }
+    button {
+      width: 100px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="code">
+    <%= activity.code %>
+  </h1>
+  <div class="container">
+    <form action="/admin/activities/<%= activity.code %>?_method=PUT" method="post">
+      <!-- <section>
+        <label for="name">Name: </label>
+        <input type="text" name="name" id="name" value="<%= activity.name %>">
+        <br>
+      </section> -->
+      <section>
+        <label for="name">Name: </label>
+        <input type="text" name="name" id="name" value="<%= activity.name %>">
+        <br>
+      </section>
+      <section>
+        <label for="score">Score: </label>
+        <input type="text" name="score" id="score" value="<%= activity.score %>">
+        <br>
+      </section>
+      <section>
+        <label for="location">Location: </label>
+        <input type="text" name="location" id="location" value="<%= activity.location %>">
+        <br>
+      </section>
+      <section>
+        <label for="activityLatitude">Latitude: </label>
+        <input type="text" name="activityLatitude" id="activityLatitude" value="<%= activity.activityLatitude %>">
+        <br>
+      </section>
+      <section>
+        <label for="activityLongitude">Longitude: </label>
+        <input type="text" name="activityLongitude" id="activityLongitude" value="<%= activity.activityLongitude %>">
+        <br>
+      </section>
+      <section>
+        <label for="start_time">Start Time: </label>
+        <input type="text" name="start_time" id="start_time" value="<%= activity.start_time %>">
+        <br>
+      </section>
+      <section>
+        <label for="end_time">End Time: </label>
+        <input type="text" name="end_time" id="end_time" value="<%= activity.end_time %>">
+        <br>
+      </section>
+      <button type="submit">Update</button>
+    </form>
+    <div class="image-qr">
+      <img src="" alt="">
+    </div>
+  </div>
+  <hr>
+  <a href="/admin/activities">Back</a>
+
+  <script>
+     function makeQR() {
+      const code = document.getElementById('code').value;
+      const url = `https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=${code}`;
+      document.querySelector('.image-qr img').src = url;
+    }
+    makeQR();
+    document.getElementById('code').addEventListener('keyup', () => {
+      makeQR();
+    });
+  </script>
+</body>
+</html>

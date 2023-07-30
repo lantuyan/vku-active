@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Show Activity</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: flex-start;
+    }
+    /* form {
+      display: flex;
+      flex-direction: column;
+    } */
+    .image-qr {
+      width: 23%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .image-qr img {
+      width: 100%;
+      height: auto;
+    }
+    section {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    label {
+      width: 150px;
+    }
+    input {
+      width: 200px;
+    }
+    button {
+      width: 100px;
+      /* margin-top: 20px; */
+    }
+    .navbar {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>
+    <%= activity.name %>
+  </h1>
+  <div class="container">
+    <ul>
+      <li id="code">
+        Mã Code: <%= activity.code %>
+      </li>
+      <li>
+        Score: <%= activity.score %>
+      </li>
+      <li>
+        Location: <%= activity.location %>
+      </li>
+      <li>
+        Latitude: <%= activity.activityLatitude%>
+      </li>
+      <li>
+        Longitude: <%= activity.activityLongitude %>
+      </li>
+      <li class="start_time">
+        Bắt đầu: <%= activity.start_time %>
+      </li>
+      <li class="end_time">
+        Kết thúc: <%= activity.end_time %>
+      </li>
+    </ul>
+    <div class="image-qr">
+      <img src="" alt="">
+    </div>
+  </div>
+  <hr>
+    <div class="navbar">
+      <div>
+        <a href="/admin/activities">Back</a>
+      </div>
+      <a href="/admin/activities/<%= activity.code %>/edit">Edit</a>
+      <form action="/admin/activities/<%= activity.code %>?_method=DELETE" method="post">
+        <button type="submit">Delete</button>
+      </form>
+    </div>
+    
+
+  <script>
+    function makeQR() {
+      const code = document.getElementById('code').getAttribute('value');
+      const url = `https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=${code}`;
+      document.querySelector('.image-qr img').src = url;
+    }
+    makeQR();
+    document.getElementById('code').addEventListener('keyup', () => {
+      makeQR();
+    });
+
+    function alertDelete() {
+      const isDelete = confirm('Bạn có chắc chắn muốn xóa hoạt động này?');
+      if (!isDelete) {
+        event.preventDefault();
+      }
+    }
+    document.querySelector('form').addEventListener('submit', alertDelete);
+  </script>
+  </body>
+  
+</body>
+</html>
